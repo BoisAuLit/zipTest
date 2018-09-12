@@ -1,9 +1,61 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <label class="check" formArrayName="orders" *ngFor="let order of form.controls.orders.controls; let i = index">
-    <input type="checkbox" [formControlName]="i">
-    {{orders[i].name}}
-  </label>
+<!--<p>User uid : {{userUid}}</p>-->
+<!--<p>Date : {{date}}</p>-->
 
-  <div *ngIf="!form.valid">At least one order must be selected</div>
-  <input type="submit" value="Submit" [disabled]="!form.valid"/>
-</form>
+<div class="container">
+  <!--<div *ngFor="let item of data; let i = index;">-->
+  <!--<input type="checkbox" [checked]="item.checked" (change)="onChange($event, i, item)">-->
+  <!--{{item.label}}-->
+  <!--</div>-->
+
+  <br>
+
+  <!--<strong>Last action:</strong> {{lastAction || 'untouched' }}-->
+
+  <!--<h4>JSON data:</h4>-->
+  <pre>
+<!--{{data | json}}-->
+</pre>
+</div>
+
+
+<mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="buildingName">
+    <mat-header-cell *matHeaderCellDef>Building name</mat-header-cell>
+    <mat-cell *matCellDef="let coupon"> {{ coupon.buildingName }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="pdf">
+    <mat-header-cell *matHeaderCellDef>
+      PDF (select/unselect all)
+      <input type="checkbox" [checked]="true" (change)="onChangePdfAll($event)">
+    </mat-header-cell>
+    <mat-cell *matCellDef="let coupon">
+      <input type="checkbox" [checked]="coupon.pdfInfo.checked" (change)="onChangeCoupon($event, coupon.pdfInfo)">
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="xlsx">
+    <mat-header-cell *matHeaderCellDef>
+      XLSX (select/unselect all)
+      <input type="checkbox" [checked]="true" (change)="onChangeXlsxAll($event)">
+    </mat-header-cell>
+    <mat-cell *matCellDef="let coupon">
+      <input type="checkbox" [checked]="coupon.xlsxInfo.checked" (change)="onChangeCoupon($event, coupon.xlsxInfo)">
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<input type="submit" value="Télécharger" (click)="submit()">
+
+<div *ngIf="allDatasource">
+  <pre>{{ allDatasource | json }}</pre>
+</div>
+
+<div *ngIf="submitDataTest">
+  <pre>{{submitDataTest | json}}</pre>
+</div>
